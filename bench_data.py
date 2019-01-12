@@ -22,7 +22,8 @@ def trade_days(date_start, date_end):
         strday = datetime.datetime.strftime(day,'%Y-%m-%d')
         #print(strday)
         trade_days_list.append([strday])
-    
+
+    #取得历史日期
     return trade_days_list
         
     
@@ -48,9 +49,11 @@ def bench_df(trade_days_list):
         bench_data = w.wset("indexconstituent","date="+ strday , "windcode=000300.SH")
         temps_df = pd.DataFrame(bench_data.Data).T
         temps_df.columns = ['date','stock_code', 'stock_name','stock_weight']
+        #保存了当天的样本和权重
         bench_df = pd.concat([bench_df, temps_df])
 
     # 将日期格式转化为文本
+    # 应该可以apply
     bench_df['date'] = bench_df['date'].map(lambda x: datetime.datetime.strftime(x,'%Y-%m-%d'))
     
     #取每个股票的行业信息
